@@ -154,4 +154,9 @@ resource "aws_cloudfront_distribution" "website_cdn" {
   aliases = ["${var.domain}"]
 
   tags = "${merge("${var.tags}",map("Name", "${var.project}-${var.environment}-${var.domain}", "Environment", "${var.environment}", "Project", "${var.project}"))}"
+
+  lambda_function_association {
+    event_type = "viewer-request"
+    lambda_arn = "${var.viewer-request-lambda}"
+  }
 }

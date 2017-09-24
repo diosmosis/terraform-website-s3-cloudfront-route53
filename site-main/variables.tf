@@ -42,3 +42,8 @@ variable "forward-query-string" {
   description = "Forward the query string to the origin"
   default     = false
 }
+
+variable "viewer-request-lambda" {
+  description = "ARN of the lambda to use for the viewer-request variable."
+  default = false
+}
