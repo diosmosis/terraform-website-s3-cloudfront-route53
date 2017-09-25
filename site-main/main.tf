@@ -137,6 +137,11 @@ resource "aws_cloudfront_distribution" "website_cdn" {
     // This redirects any HTTP request to HTTPS. Security first!
     viewer_protocol_policy = "redirect-to-https"
     compress               = true
+
+    lambda_function_association {
+      event_type = "viewer-request"
+      lambda_arn = "${var.viewer-request-lambda}"
+    }
   }
 
   "restrictions" {
@@ -154,9 +159,4 @@ resource "aws_cloudfront_distribution" "website_cdn" {
   aliases = ["${var.domain}"]
 
   tags = "${merge("${var.tags}",map("Name", "${var.project}-${var.environment}-${var.domain}", "Environment", "${var.environment}", "Project", "${var.project}"))}"
-
-  lambda_function_association {
-    event_type = "viewer-request"
-    lambda_arn = "${var.viewer-request-lambda}"
-  }
 }
